@@ -1,0 +1,4 @@
+main: dev.orf1.foundation.Foundation
+version: 1.0.0
+name: Foundation
+api-version: 1.16

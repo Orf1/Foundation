@@ -27,6 +27,7 @@ tasks.withType<KotlinCompile>() {
 }
 
 task ("installPlugin") {
+    project.delete(files("server/plugins"))
     doLast {
         copy {
             from ("build/libs/foundation-${project.version}.jar")

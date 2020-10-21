@@ -8,15 +8,15 @@ import dev.orf1.foundation.util.Log
 import org.bukkit.plugin.java.JavaPlugin
 
 class Foundation : JavaPlugin() {
-    private lateinit var manager:PaperCommandManager
-    private val config = DataFile(this, "config.yml")
-    private val data = DataFile(this, "data.yml")
-
-    companion object {
-        private lateinit var plugin:JavaPlugin
+    internal companion object {
         @JvmStatic
+        internal lateinit var plugin:JavaPlugin
+        internal lateinit var manager:PaperCommandManager
         internal val lang = DataFile(plugin, "lang.yml")
+        internal val settings = DataFile(plugin, "config.yml")
+        internal val data = DataFile(plugin, "data.yml")
     }
+
     override fun onEnable() {
         plugin = this
         manager = PaperCommandManager(this)
@@ -36,10 +36,10 @@ class Foundation : JavaPlugin() {
     }
 
     private fun update() {
-        if (config.get().getString("version") != description.version) {
-            Log().warning("Foundation config is outdated.")
+        if (settings.get().getString("version") != description.version) {
+            Log.warning("Foundation config is outdated.")
         } else {
-            Log().info("Foundation config is up to date.")
+            Log.info("Foundation config is up to date.")
         }
     }
 

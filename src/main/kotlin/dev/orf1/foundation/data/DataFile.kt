@@ -1,14 +1,14 @@
 package dev.orf1.foundation.data
 
-import dev.orf1.foundation.util.Log
+import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.lang.Exception
 
 data class DataFile(private val plugin: JavaPlugin, private val name: String) {
-    private var data:YamlConfiguration
-    private var file = File(plugin.dataFolder, name)
+    private lateinit var data:YamlConfiguration
+    private val file = File(plugin.dataFolder, name)
 
     init {
         try {
@@ -19,23 +19,53 @@ data class DataFile(private val plugin: JavaPlugin, private val name: String) {
                     plugin.saveResource(name, false)
                 }
             }
-            Log().info("Successfully loaded datafile $name")
+            info("Successfully initialized datafile $name")
         } catch (exception: Exception) {
-            Log().error("A fatal error occurred while loading $name")
+            error("A fatal error occurred while initializing datafile $name")
             exception.printStackTrace()
         }
-        data = YamlConfiguration.loadConfiguration(file)
+        try {
+            data = YamlConfiguration.loadConfiguration(file)
+            info("Successfully loaded datafile $name")
+        } catch (exception: Exception) {
+            error("A fatal error occurred while loading datafile $name")
+            exception.printStackTrace()
+        }
     }
 
     internal fun reload() {
-        data = YamlConfiguration.loadConfiguration(file)
+        try {
+            data = YamlConfiguration.loadConfiguration(file)
+            info("Successfully reloaded datafile $name")
+        } catch (exception: Exception) {
+            error("A fatal error occurred while reloading datafile $name")
+            exception.printStackTrace()
+        }
     }
 
     internal fun save() {
-        data.save(file)
+        try {
+            data.save(file)
+            info("Successfully saved datafile $name")
+        } catch (exception: Exception) {
+            error("A fatal error occurred while saving datafile $name")
+            exception.printStackTrace()
+        }
     }
 
     internal fun get(): YamlConfiguration {
         return data;
+    }
+
+    private fun info(message: String) {
+        Bukkit.getLogger().info(message)
+    }
+
+    private fun warning(message: String) {
+        Bukkit.getLogger().warning(message)
+    }
+
+    private fun error(message: String) {
+        Bukkit.getLogger().severe(message)
     }
 }

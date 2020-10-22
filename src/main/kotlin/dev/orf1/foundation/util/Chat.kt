@@ -1,5 +1,6 @@
 package dev.orf1.foundation.util
 
+import dev.orf1.foundation.Foundation
 import org.bukkit.ChatColor
 
 internal class Chat {

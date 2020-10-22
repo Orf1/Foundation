@@ -13,6 +13,5 @@ class CommandFoundation : BaseCommand() {
     @Description("Displays Foundation help page.")
     @Default
     fun onHelp(player: Player){
-        player.sendMessage(Chat().format(""));
     }
 }
